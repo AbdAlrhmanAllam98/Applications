@@ -27,7 +27,8 @@ body{
 .container .form .input:focus{
     outline: none;
 }
-.container .form .add{
+.container .form .add,
+.container .tasks .task{
     padding: 10px;
     margin-left: 20px;
     border:none;
@@ -45,16 +46,13 @@ body{
     border-radius: 6px;
 }
 .container .tasks .task{
-    background-color: white;
-    padding: 10px;
-    border-radius: 6px;
-    transition: 0.3s;
-    cursor: pointer;
-    font-size: 20px;
-    font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: white;
+    color: #2961f6;
+    transition: 0.3s;
+    font-size: 20px;
 }
 .container .tasks .task:not(:last-child){
     margin-bottom: 15px;
@@ -65,7 +63,8 @@ body{
 .container .tasks .task.done{
     background-color: #2961f6;
 }
-.container .tasks .task span{
+.container .tasks .task span,
+.container .clear{
     background-color: #f44336;
     padding: 15px;
     color: white;
@@ -76,9 +75,5 @@ body{
 .container .clear{
     width: fit-content;
     margin: 20px auto;
-    background-color: #f44336;
-    padding: 15px;
-    color: white;
-    border-radius: 6px;
     cursor: pointer;
 }
