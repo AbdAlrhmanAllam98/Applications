@@ -45,6 +45,15 @@ body{
     margin-top: 20px;
     border-radius: 6px;
 }
+.container .tasks .no-tasks{
+    display: block;
+    text-align: center;
+    background-color: white;
+    color: #777;
+    font-size: 25px;
+    font-weight: bold;   
+    padding: 10px;
+}
 .container .tasks .task{
     display: flex;
     align-items: center;
@@ -61,11 +70,12 @@ body{
     background-color: #f7f7f7;
 }
 .container .tasks .task.done{
-    background-color: #2961f6;
+    background-color: #43f436;
+    color: white;
 }
 .container .tasks .task span,
 .container .clear{
-    background-color: #f44336;
+    background-color: #e91e63;
     padding: 15px;
     color: white;
     font-weight: normal;
@@ -76,4 +86,31 @@ body{
     width: fit-content;
     margin: 20px auto;
     cursor: pointer;
+}
+.container .tasks-state{
+    overflow: hidden;
+    margin: 10px auto;
+}
+.container .tasks-state .tasks-count,
+.container .tasks-state .tasks-completed{
+    float: left;
+    width: 50%;
+    padding: 10px;
+}
+.container .tasks-state .tasks-completed{
+    text-align: right;
+}
+.container .tasks-state span{
+    padding: 1px 3px;
+    border-radius: 4px;
+    margin-left: 5px;
+}
+.container .tasks-state .tasks-count span{
+    background-color: #2961f6;
+}
+.container .tasks-state .tasks-completed span{
+    background-color: #43f436;
+}
+.clear-fix{
+    clear: both;
 }
