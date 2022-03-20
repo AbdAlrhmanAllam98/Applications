@@ -6,12 +6,36 @@ let clearAll=document.querySelector(".container .clear");
 let taskStateDiv=document.querySelector(".container .tasks-state");
 let arrayOfTasks;
 getDataFromLocalStorage();
+window.onload=function(){
+    input.focus();
+}
 addTask.onclick=function(){
     if(input.value!=""){
-        addTaskToArray(input.value);
+        let flagExist=false;
+        arrayOfTasks.forEach(task => {
+            if(input.value==task.text){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                });
+                flagExist=true;
+            }
+        });
+        if(flagExist==false){
+            addTaskToArray(input.value);
+            addElementsToPage(arrayOfTasks);
+            addDataToLocalStorage(arrayOfTasks);
+        }
         input.value="";
-        addElementsToPage(arrayOfTasks);
-        addDataToLocalStorage(arrayOfTasks);
+        input.focus();
+    }
+    else{
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Something went wrong!',
+        });
     }
 };
 tasksDiv.addEventListener("click",function(e){
@@ -19,14 +43,23 @@ tasksDiv.addEventListener("click",function(e){
     if(e.target.classList.contains("delete")){
         deleteTaskFromLocalStorage(e);
         e.target.parentElement.remove();
+        if(arrayOfTasks.length==0){
+            noTasksToShow();
+        }
+        else{
+            addElementsToPage(arrayOfTasks);
+        }
     }
     // Update 
     if(e.target.classList.contains("task")){
         changeStatusTask(e);
+        addElementsToPage(arrayOfTasks);
     }
-    addElementsToPage(arrayOfTasks);
 });
-clearAll.onclick=clearAllLocalStorage;
+clearAll.onclick=function(){
+    if(arrayOfTasks.length!=0){
+        clearAllLocalStorage();
+    }};
 
 function getDataFromLocalStorage(){
     if(localStorage.getItem("tasks")){
@@ -34,6 +67,9 @@ function getDataFromLocalStorage(){
         addElementsToPage(arrayOfTasks);
     }
     else{
+        noTasksToShow();    
+    }
+    if(arrayOfTasks.length==0){
         noTasksToShow();
     }
 }
@@ -50,12 +86,17 @@ function noTasksToShow(){
     tasksDiv.innerHTML="";
     taskStateDiv.innerHTML="";
     arrayOfTasks=[];
-    let noTasks=document.createElement("span");
-    noTasks.className="no-tasks";
-    let noTasksText=document.createTextNode("No Tasks to Show");
-    noTasks.appendChild(noTasksText);
-    tasksDiv.appendChild(noTasks);
+    createElement(tasksDiv,"span","no-tasks","No Tasks to Show",null,null);
     clearAll.style.opacity=0.2;
+}
+function createElement(parent,element,className,text,attribute,value){
+    let elementTag=document.createElement(element);
+    elementTag.className=className;
+    elementTag.setAttribute(attribute,value);
+    let textNode=document.createTextNode(text);
+    elementTag.appendChild(textNode);
+    parent.appendChild(elementTag);
+    return elementTag;
 }
 function addTaskToArray(taskText){
     let task={
@@ -70,45 +111,23 @@ function addElementsToPage(data){
     taskStateDiv.innerHTML="";
     data.forEach((task)=>{
         // create main div
-        let taskDiv=document.createElement("div");
-        taskDiv.setAttribute("data-id",task.id);
-        let taskText=document.createTextNode(task.text);
-        taskDiv.appendChild(taskText);
-        taskDiv.className="task";
+        let taskDiv =createElement(tasksDiv,"div","task",task.text,"data-id",task.id);
         if(task.completed){
             taskDiv.className="task done";
         }
         // create delete button 
-        let deleteSpan=document.createElement("span");
-        deleteSpan.appendChild(document.createTextNode("Delete"));
-        deleteSpan.className="delete";
-        // append all div to page
-        taskDiv.appendChild(deleteSpan);
-        tasksDiv.appendChild(taskDiv);
-
+        createElement(taskDiv,"span","delete","DELETE",null,null);
     });
 //create Tasks State
     //create tasks count
-    let tasksCount=document.createElement("div");
-    tasksCount.className="tasks-count";
-    let tasksCountText=document.createTextNode("Tasks");
-    tasksCount.appendChild(tasksCountText);
-    let countSpan=document.createElement("span");
-    let countSpanText=document.createTextNode(data.length);
-    countSpan.appendChild(countSpanText);
-    tasksCount.appendChild(countSpan);
-    taskStateDiv.appendChild(tasksCount);
+    let tasksCount=createElement(taskStateDiv,"div","tasks-count","Tasks",null,null);
+    createElement(tasksCount,"span","",data.length,null,null);
+
     //create tasks completed
-    let tasksCompleted=document.createElement("div");
-    tasksCompleted.className="tasks-completed";
-    let tasksCompletedText=document.createTextNode("Completed");
-    tasksCompleted.appendChild(tasksCompletedText);
-    let completedSpan=document.createElement("span");
     let completedTasks=getStateFromData();
-    let completedSpanText=document.createTextNode(completedTasks);
-    completedSpan.appendChild(completedSpanText);
-    tasksCompleted.appendChild(completedSpan);
-    taskStateDiv.appendChild(tasksCompleted);
+    let tasksCompleted=createElement(taskStateDiv,"div","tasks-completed","Completed",null,null);
+    createElement(tasksCompleted,"span","",completedTasks,null,null);
+
     clearAll.style.opacity=1;
 }
 function addDataToLocalStorage(data){
@@ -132,5 +151,4 @@ function changeStatusTask(e){
 function clearAllLocalStorage(){
     localStorage.removeItem("tasks");
     noTasksToShow();
-
 }
