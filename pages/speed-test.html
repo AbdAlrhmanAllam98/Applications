@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/speed-test.css">
+    <title>Typing Speed Test Game</title>
+</head>
+<body>
+    <div class="game">
+        <div class="name">
+            Typing Speed Test Game
+        </div>
+        <div class="container">
+            <div class="select-level">
+                <label for="levels"></label>
+                <select name="levels" id="levels">
+                    <option value="Easy">Easy</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Hard">Hard</option>
+                </select>
+            </div>
+            <div class="message back-white">
+                You are Playing on
+                <span class="level"></span>
+                Level & You have
+                <span class="seconds"></span>
+                Seconds to type the word
+            </div>
+            <button>Start Playing</button>
+            <div class="the-word"></div>
+            <input type="text" class="input"/>
+            <div class="upcoming-words back-white">
+            </div>
+            <div class="control back-white">
+                <div class="time">Time Left : <span></span> Second</div>
+                <div class="score">Score : <span class="got">0</span> From <span class="total"></span></div>
+            </div>
+            <div class="the-last back-white">
+                <div class="last-score">Last Score : <span>0</span></div>
+                <div class="high-score">High Score : <span>0</span></div>
+            </div>
+            <div class="finish back-white"></div>
+            <div class="game-instruction">
+                <h2>Game Instruction:</h2>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/speed-test.js"></script>
+</body>
+</html>
